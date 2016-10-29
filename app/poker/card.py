@@ -1,6 +1,8 @@
 # hearts, diamonds, clubs and spades
 from functools import total_ordering
 
+from app.util import check_argument
+
 _SUITS = 'HDCS'
 _RANKS = '23456789TJQKA'
 
@@ -10,8 +12,8 @@ class Card:
 
     def __init__(self, suit, rank):
 
-        assert suit in _SUITS, "Suit was {} but must be one of '{}'".format(suit, ','.join(_SUITS))
-        assert rank in _RANKS, "Rank was {} must be one of '{}'".format(rank, ','.join(_RANKS))
+        check_argument(suit in _SUITS, "Suit was {} but must be one of '{}'".format(suit, ','.join(_SUITS)))
+        check_argument(rank in _RANKS, "Rank was {} must be one of '{}'".format(rank, ','.join(_RANKS)))
 
         self.suit = suit
         self.rank = rank

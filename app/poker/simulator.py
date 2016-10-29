@@ -3,18 +3,20 @@ from collections import Counter
 from card import Card
 from deck import Deck
 from seven_card_hand import SevenCardHand
+from app.util import check_argument
 
 _ITERATIONS = 1000
 
 
 def probability_of_winning(my_hand, opponent_count, table_cards):
 
-    assert len(my_hand) == 2, "A player's hand must have 2 cards exactly"
-    assert len(table_cards) in (0, 3, 4, 5), "A table can only have 0, 3, 4 or 5 cards at any given time"
-    assert 0 < opponent_count < 23, "The number of opponents must be between 1 and 23, inclusive"
+    check_argument(len(my_hand) == 2, "A player's hand must have 2 cards exactly")
+    check_argument(len(table_cards) in (0, 3, 4, 5), "A table can only have 0, 3, 4 or 5 cards at any given time")
+    check_argument(0 < opponent_count < 23, "The number of opponents must be between 1 and 23, inclusive")
 
     duplicated_cards = [card for card, count in Counter(my_hand + table_cards).items() if count > 1]
-    assert len(duplicated_cards) == 0, "The following cards appeared multiple times in table_cards + players_hand - {}".format(",".join(duplicated_cards))
+    check_argument(len(duplicated_cards) == 0,
+                   "The following cards appeared multiple times in table_cards + players_hand - {}".format(",".join(duplicated_cards)))
 
     all_cards = {Card(suit, rank) for suit in "HDSC" for rank in "23456789TJQKA"}
     undealt_cards = list(all_cards - set(my_hand + table_cards))

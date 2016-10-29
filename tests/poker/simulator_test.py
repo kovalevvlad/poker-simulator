@@ -28,7 +28,7 @@ def test_simulator_sanity():
 def test_hand_must_have_two_cards():
     available_cards = [Card("H", "2"), Card("H", "3"), Card("H", "4")]
     for i in [0, 1, 3]:
-        with pytest.raises(AssertionError) as exception:
+        with pytest.raises(ValueError) as exception:
             simulator.probability_of_winning(
                 available_cards[:i],
                 3,
@@ -40,7 +40,7 @@ def test_hand_must_have_two_cards():
 def test_table_must_have_the_right_number_of_cards():
     available_cards = [Card("H", "T"), Card("H", "A"), Card("D", "5"), Card("C", "J"), Card("C", "9"), Card("D", "T")]
     for i in [1, 2, 6]:
-        with pytest.raises(AssertionError) as exception:
+        with pytest.raises(ValueError) as exception:
             simulator.probability_of_winning(
                 [Card("H", "2"), Card("H", "3")],
                 3,
@@ -51,7 +51,7 @@ def test_table_must_have_the_right_number_of_cards():
 
 def test_must_have_between_one_and_twentythree_opponents():
     for i in [0, 24]:
-        with pytest.raises(AssertionError) as exception:
+        with pytest.raises(ValueError) as exception:
             simulator.probability_of_winning(
                 [Card("H", "2"), Card("H", "3")],
                 i,

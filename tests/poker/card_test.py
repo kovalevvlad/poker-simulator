@@ -3,13 +3,13 @@ from app.poker.card import Card
 
 
 def test_exception_thrown_with_bad_suit():
-    with pytest.raises(AssertionError) as exception:
+    with pytest.raises(ValueError) as exception:
         Card("X", "K")
         assert "suit" in str(exception.value)
 
 
 def test_exception_thrown_with_bad_rank():
-    with pytest.raises(AssertionError) as exception:
+    with pytest.raises(ValueError) as exception:
         Card("H", "X")
         assert "rank" in str(exception.value)
 

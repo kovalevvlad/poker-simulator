@@ -7,12 +7,12 @@ import random
 
 def test_seven_card_hand_must_be_initialised_with_seven_cards():
     for i in [0, 1, 6, 8]:
-        with pytest.raises(AssertionError):
+        with pytest.raises(ValueError):
             SevenCardHand(range(i))
 
 
 def test_five_card_hand_must_be_initialised_with_distinct_items():
-    with pytest.raises(AssertionError):
+    with pytest.raises(ValueError):
         SevenCardHand([1, 2, 3, 4, 5, 6, 6])
 
 

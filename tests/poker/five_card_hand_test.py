@@ -22,12 +22,12 @@ def test_hand_scoring():
 
 
 def test_five_card_hand_must_be_initialised_full():
-    with pytest.raises(AssertionError):
+    with pytest.raises(ValueError):
         FiveCardHand([1, 2, 3, 4])
 
 
 def test_five_card_hand_must_be_initialised_with_distinct_items():
-    with pytest.raises(AssertionError):
+    with pytest.raises(ValueError):
         FiveCardHand([1, 2, 3, 4, 4])
 
 

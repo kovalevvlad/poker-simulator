@@ -1,11 +1,13 @@
 from collections import Counter
 
+from app.util import check_argument
+
 
 class FiveCardHand:
 
     def __init__(self, cards):
-        assert len(cards) == 5, "A 5-card hands must have exactly 5 cards"
-        assert len(set(cards)) == 5, "All cards must be distinct in a 5-card hand"
+        check_argument(len(cards) == 5, "A 5-card hands must have exactly 5 cards")
+        check_argument(len(set(cards)) == 5, "All cards must be distinct in a 5-card hand")
         self.cards = cards
 
     def score(self):
