@@ -1,0 +1,15 @@
+## Customize the test machine
+machine:
+
+  # Version of python to use
+  python:
+    version: 2.7.12
+
+  # Add some environment variables
+  environment:
+    PYTHONPATH: "."
+
+## Customize test commands, CircleCI can't infer?
+test:
+  override:
+    - pytest

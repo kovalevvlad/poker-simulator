@@ -1,0 +1,1 @@
+web: PYTHONPATH=. python app/run.py
