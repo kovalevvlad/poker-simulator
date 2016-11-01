@@ -18,19 +18,33 @@ class FiveCardHand:
         """
 
         # https://en.wikipedia.org/wiki/List_of_poker_hand_categories
-        hand_type_matches = [
-            self._is_flush() and self._is_straight(),   # Straight flush
-            self._is_four_of_a_kind(),                  # Four of a kind
-            self._is_full_house(),                      # Full house
-            self._is_flush(),                           # Flush
-            self._is_straight(),                        # Straight
-            self._is_three_of_a_kind(),                 # Three of a kind
-            self._is_two_pair(),                        # Two pair
-            self._is_pair(),                            # One pair
-            True]                                       # High card
+        if self._is_flush() and self._is_straight():
+            return 8, self._high_card_component()
 
-        best_available_hand_category = [category_index for category_index, category_matches in enumerate(reversed(hand_type_matches)) if category_matches][-1]
-        return best_available_hand_category, self._high_card_component()
+        elif self._is_four_of_a_kind():
+            return 7, self._rank_with_frequency(4), self._high_card_component()
+
+        elif self._is_full_house():
+            return 6, self._rank_with_frequency(3), self._rank_with_frequency(2)
+
+        elif self._is_flush():
+            return 5, self._high_card_component()
+
+        elif self._is_straight():
+            # Think about a low straight, the second card resolves this issue
+            return 4, -1 if self._labeled_rank_histogram().has_key("A") else max(card.numeric_rank() for card in self._high_card_component())
+
+        elif self._is_three_of_a_kind():
+            return 3, self._rank_with_frequency(3)
+
+        elif self._is_two_pair():
+            return 2, list(sorted((rank for rank, count in self._labeled_rank_histogram().items() if count == 2), reverse=True)), self._high_card_component()
+
+        elif self._is_pair():
+            return 1, self._rank_with_frequency(2), self._high_card_component()
+
+        else:
+            return 0, self._high_card_component()
 
     def _is_flush(self):
         return len(set(card.suit for card in self.cards)) == 1
@@ -50,7 +64,7 @@ class FiveCardHand:
     def _is_straight(self):
         ranks_in_order = list(card.rank for card in sorted(self.cards, key=lambda card: card.numeric_rank()))
         hand_string = "".join(ranks_in_order)
-        return hand_string in "A23456789TJQKA"
+        return hand_string in "23456789TJQKA" or hand_string == "2345A"
 
     def _is_four_of_a_kind(self):
         return self._rank_histogram() == [1, 4]
@@ -59,4 +73,10 @@ class FiveCardHand:
         return self._rank_histogram() == [1, 1, 3]
 
     def _rank_histogram(self):
-        return sorted(Counter(card.rank for card in self.cards).values())
+        return sorted(self._labeled_rank_histogram().values())
+
+    def _labeled_rank_histogram(self):
+        return Counter(card.rank for card in self.cards)
+
+    def _rank_with_frequency(self, frequency):
+        return next(rank for rank, count in self._labeled_rank_histogram().items() if count == frequency)
