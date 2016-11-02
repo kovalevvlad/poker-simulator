@@ -19,6 +19,7 @@ class FiveCardHand:
         self.cards = cards
         self._labeled_rank_histogram = _labeled_rank_histogram(cards)
         self._rank_histogram = _rank_histogram(self._labeled_rank_histogram)
+        self._sorted_cards = sorted(self.cards, key=lambda card: card.numeric_rank(), reverse=True)
 
     def score(self):
         """
@@ -63,7 +64,7 @@ class FiveCardHand:
         return self._rank_histogram == [2, 3]
 
     def _high_card_component(self):
-        return sorted(self.cards, key=lambda card: card.numeric_rank(), reverse=True)
+        return self._sorted_cards
 
     def _is_pair(self):
         return self._rank_histogram == [1, 1, 1, 2]
@@ -72,9 +73,9 @@ class FiveCardHand:
         return self._rank_histogram == [1, 2, 2]
 
     def _is_straight(self):
-        ranks_in_order = list(card.rank for card in sorted(self.cards, key=lambda card: card.numeric_rank()))
+        ranks_in_order = [card.rank for card in self._sorted_cards]
         hand_string = "".join(ranks_in_order)
-        return hand_string in "23456789TJQKA" or hand_string == "2345A"
+        return hand_string in "AKQJT98765432" or hand_string == "A5432"
 
     def _is_four_of_a_kind(self):
         return self._rank_histogram == [1, 4]
