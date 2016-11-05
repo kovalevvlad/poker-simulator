@@ -6,7 +6,7 @@ from seven_card_hand import SevenCardHand
 from app.util import check_argument
 from multiprocessing import Pool, cpu_count
 
-_ITERATIONS = 150
+_ITERATIONS = 2000 / cpu_count()
 
 
 def win_count(args):
