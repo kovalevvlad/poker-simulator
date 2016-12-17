@@ -13,12 +13,12 @@ def test_client():
 
 def test_missing_argument_causes_400(test_client):
     assert all(
-        test_client.post('/estimate', data=dict(args)).status_code == 400
+        test_client.get('/estimate', query_string=dict(args)).status_code == 400
         for args in combinations([('my_hand', "S6,CK"), ('opponent_count', 3), ('table', "HK,HA,HT")], 2))
 
 
 def test_valid_request_succeeds(test_client):
-    result = test_client.post('/estimate', data={'my_hand': "HA,CK", "table": "", "opponent_count": 3})
+    result = test_client.get('/estimate', query_string={'my_hand': "HA,CK", "table": "", "opponent_count": 3})
     assert result.status_code == 200
     assert result.content_type == 'application/json'
     data_dict = json.loads(result.data)
@@ -39,4 +39,4 @@ def test_invalid_arguments_cause_400(test_client):
         # invalid card on the table
         {'my_hand': "HA,CK", "table": "HT,CT,CY", "opponent_count": 3}]
 
-    assert all(test_client.post('/estimate', data=dict(args)).status_code == 400 for args in cases)
+    assert all(test_client.get('/estimate', query_string=dict(args)).status_code == 400 for args in cases)
