@@ -1,4 +1,5 @@
 ![CircleCI Build Status](https://circleci.com/gh/kovalevvlad/poker-simulator.png?style=shield&circle-token=ce81ae07dd26e397b7a495e336dc6a9a95de9454 "CircleCI Build Status")
+[![Code Climate](https://codeclimate.com/github/kovalevvlad/poker-simulator/badges/gpa.svg)](https://codeclimate.com/github/kovalevvlad/poker-simulator)
 
 # Poker Simulator
 
